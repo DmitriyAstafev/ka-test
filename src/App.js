@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
@@ -8,11 +8,19 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Account from "./components/Account";
+import { setAuth } from "./store/reducers/userSlice";
 
 function App() {
+  const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth);
+  
+  // Получаем isAuth из localStorage и записывем в store redux
+  useEffect(() => {
+    dispatch(setAuth(JSON.parse(localStorage.getItem("isAuth"))))
+  }, [])
+
   return (
     <Router>
       <Navbar />
