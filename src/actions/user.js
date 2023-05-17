@@ -8,7 +8,18 @@ export const registration = async (name, email, password) => {
       password,
     });
     alert("Поздравляем, вы успешно зарегистрированы");
-    console.log(response);
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+export const login = async (email, password) => {
+  try {
+    const response = await axios.post("https://job.kitactive.ru/api/login", {
+      email,
+      password,
+    });
+    localStorage.setItem('token', response.data.token)
   } catch (e) {
     alert(e.message);
   }
