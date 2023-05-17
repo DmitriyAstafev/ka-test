@@ -1,9 +1,8 @@
-import React from 'react';
+import React from "react";
+import Registration from "./components/Registration";
 
 function App() {
-  return (
-    <div>Работает</div>
-  );
+  return <Registration />;
 }
 
 export default App;
