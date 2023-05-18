@@ -1,5 +1,5 @@
 import axios from "axios";
-
+//TO-DO Отрефакторить функции запросов
 export const registration = async (name, email, password) => {
   try {
     const response = await axios.post("https://job.kitactive.ru/api/register", {
@@ -19,7 +19,7 @@ export const login = async (email, password) => {
       email,
       password,
     });
-    localStorage.setItem('token', response.data.token)
+    localStorage.setItem("token", response.data.token);
   } catch (e) {
     alert(e.message);
   }
