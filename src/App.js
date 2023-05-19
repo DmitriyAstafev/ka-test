@@ -2,24 +2,29 @@ import React, { useEffect } from "react";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Account from "./components/Account";
 import { setAuth } from "./store/reducers/userSlice";
+import { getFiles } from "./actions/files";
+import { setFiles } from "./store/reducers/fileSlice";
 
 function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuth);
-  
+  const token = localStorage.getItem("token");
+
   // Получаем isAuth из localStorage и записывем в store redux
   useEffect(() => {
-    dispatch(setAuth(JSON.parse(localStorage.getItem("isAuth"))))
-  }, [])
+    getFiles(token)
+      .then((res) => {
+        dispatch(setFiles(res.data.files));
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
+    dispatch(setAuth(JSON.parse(localStorage.getItem("isAuth"))));
+  }, []);
 
   return (
     <Router>

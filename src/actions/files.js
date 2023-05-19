@@ -14,3 +14,13 @@ export const uploadFiles = async (data, token) => {
 
   return response;
 };
+
+export const getFiles = async (token) => {
+  const response = await axios.get("https://job.kitactive.ru/api/media", {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return response;
+};
