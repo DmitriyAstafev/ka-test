@@ -12,7 +12,7 @@ const FileList = () => {
           <FileItem
             key={item.id}
             fileName={item.fileName}
-            mimeType={item.mimeType}
+            url={item.url}
           />
         );
       })}

@@ -34,3 +34,13 @@ export const getOneFile = async (url, token) => {
 
   return response;
 };
+
+export const deleteFile = async (url, token) => {
+  const response = await axios.delete(url, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return response;
+};
