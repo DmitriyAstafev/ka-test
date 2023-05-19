@@ -3,11 +3,12 @@ import React, { useRef, useState } from "react";
 import { getFiles, uploadFiles } from "../actions/files";
 import FileList from "./FileList";
 import { setFiles } from "../store/reducers/fileSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Account = () => {
   const filePicker = useRef(null);
   const dispatch = useDispatch();
+  const files = useSelector((state) => state.file.files)
   const [selectedFiles, setSelectedFiles] = useState(null);
   const token = localStorage.getItem("token");
 
@@ -69,6 +70,7 @@ const Account = () => {
           Загрузить файлы
         </Button>
       </form>
+      <Typography align="center">Всего загружено файлов: {files.length} из 20</Typography>
       <FileList />
     </Container>
   );
