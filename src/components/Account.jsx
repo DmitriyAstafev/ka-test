@@ -1,9 +1,13 @@
 import { Button, Container, Typography } from "@mui/material";
 import React, { useRef, useState } from "react";
-import { uploadFiles } from "../actions/files";
+import { getFiles, uploadFiles } from "../actions/files";
+import FileList from "./FileList";
+import { setFiles } from "../store/reducers/fileSlice";
+import { useDispatch } from "react-redux";
 
 const Account = () => {
   const filePicker = useRef(null);
+  const dispatch = useDispatch();
   const [selectedFiles, setSelectedFiles] = useState(null);
   const token = localStorage.getItem("token");
 
@@ -25,7 +29,14 @@ const Account = () => {
     uploadFiles(formData, token)
       .then((res) => {
         setSelectedFiles(null);
-        alert("Файлы успешно загружены");
+        getFiles(token)
+          .then((res) => {
+            dispatch(setFiles(res.data.files));
+            alert("Файлы успешно загружены");
+          })
+          .catch((e) => {
+            alert(e.message);
+          });
       })
       .catch((e) => {
         alert(e.message);
@@ -58,6 +69,7 @@ const Account = () => {
           Загрузить файлы
         </Button>
       </form>
+      <FileList />
     </Container>
   );
 };

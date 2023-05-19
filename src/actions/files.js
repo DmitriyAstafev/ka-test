@@ -24,3 +24,13 @@ export const getFiles = async (token) => {
 
   return response;
 };
+
+export const getOneFile = async (url, token) => {
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  return response;
+};
