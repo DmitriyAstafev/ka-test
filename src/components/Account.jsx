@@ -1,6 +1,6 @@
 import { Button, Container, Typography } from "@mui/material";
-import axios from "axios";
 import React, { useRef, useState } from "react";
+import { uploadFiles } from "../actions/files";
 
 const Account = () => {
   const filePicker = useRef(null);
@@ -15,24 +15,22 @@ const Account = () => {
     setSelectedFiles(Object.values(e.target.files));
   };
 
-  const uploadFileHandler = async (e) => {
-    try {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      await axios.post("https://job.kitactive.ru/api/media/upload", formData, {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      setSelectedFiles(null);
-      alert("Файлы успешно загружены");
-    } catch (e) {
-      alert(e.message);
+  const uploadFileHandler = (e) => {
+    e.preventDefault();
+    if (!selectedFiles) {
+      alert("Выберите файлы для загрузки");
+      return;
     }
+    const formData = new FormData(e.target);
+    uploadFiles(formData, token)
+      .then((res) => {
+        setSelectedFiles(null);
+        alert("Файлы успешно загружены");
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
   };
-
-  console.log(selectedFiles);
 
   return (
     <Container>

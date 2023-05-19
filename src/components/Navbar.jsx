@@ -6,11 +6,11 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { setAuth } from "../store/reducers/userSlice";
+import { logout } from "../actions/user";
 
 const Navbar = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -18,22 +18,15 @@ const Navbar = () => {
   const dispatch = useDispatch();
   console.log(token);
 
-  const logoutHandler = async () => {
-    try {
-      await axios.post(
-        "https://job.kitactive.ru/api/logout",
-        {},
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      localStorage.removeItem("token");
-      dispatch(setAuth(false));
-    } catch (e) {
-      alert(e.message);
-    }
+  const logoutHandler = () => {
+    logout(token)
+      .then((res) => {
+        localStorage.removeItem("token");
+        dispatch(setAuth(false));
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
   };
 
   return (

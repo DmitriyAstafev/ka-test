@@ -5,7 +5,6 @@ import { login } from "../actions/user";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../store/reducers/userSlice";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -17,19 +16,17 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const loginHandler = async (loginData) => {
+  const loginHandler = (loginData) => {
     const { email, password } = loginData;
-    try {
-      const response = await axios.post("https://job.kitactive.ru/api/login", {
-        email,
-        password,
+    login(email, password)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        dispatch(setAuth(true));
+        navigate("/");
+      })
+      .catch((e) => {
+        alert(e.message);
       });
-      localStorage.setItem("token", response.data.token);
-      dispatch(setAuth(true));
-      navigate("/");
-    } catch (e) {
-      alert(e.message);
-    }
   };
 
   return (

@@ -2,8 +2,10 @@ import { Box, Button, Stack, TextField } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { registration } from "../actions/user";
+import { useNavigate } from "react-router-dom";
 
 const Registration = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -12,7 +14,16 @@ const Registration = () => {
 
   const registrationHandler = (regData) => {
     const { name, email, password } = regData;
-    registration(name, email, password);
+    registration(name, email, password)
+      .then((res) => {
+        alert(
+          "Поздравляем, вы успешно зарегистрированы. Войдите в аккаунт, чтобы начать работу."
+        );
+        navigate("/login");
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
   };
 
   return (
