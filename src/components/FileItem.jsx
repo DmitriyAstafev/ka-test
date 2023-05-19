@@ -12,7 +12,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArticleIcon from "@mui/icons-material/Article";
 import React from "react";
-import { deleteFile } from "../actions/files";
+import { deleteFile, getOneFile } from "../actions/files";
 import { useDispatch, useSelector } from "react-redux";
 import { setFiles } from "../store/reducers/fileSlice";
 
@@ -32,9 +32,25 @@ const FileItem = ({ fileName, url }) => {
       });
   };
 
+  const loadFileHandler = () => {
+    getOneFile(url, token)
+    .then((response) => {
+      const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = fileUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    })
+      .catch((e) => {
+        alert(e.message)
+      })
+  }
+
   return (
     <ListItem>
-      <ListItemButton>
+      <ListItemButton onClick={loadFileHandler}>
         {/* {mimeType.includes("image") ? (
           <ListItemAvatar>
             <Avatar src={file} />
