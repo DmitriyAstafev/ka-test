@@ -6,12 +6,16 @@ import { useNavigate } from "react-router-dom";
 
 const Registration = () => {
   const navigate = useNavigate();
+
+  // Используем билиотеку react-hook-form для работы с формой и валидации полей
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  // Отправляет данные для регистрации, сообщаем об успешной регистрации
+  // делаем редирект на страницу входа
   const registrationHandler = (regData) => {
     const { name, email, password } = regData;
     registration(name, email, password)

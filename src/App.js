@@ -14,15 +14,17 @@ function App() {
   const isAuth = useSelector((state) => state.user.isAuth);
   const token = localStorage.getItem("token");
 
-  // Получаем isAuth из localStorage и записывем в store redux
+  // Получаем массив файлов с бэка и isAuth из localStorage и записывем в store redux
   useEffect(() => {
-    getFiles(token)
-      .then((res) => {
-        dispatch(setFiles(res.data.files));
-      })
-      .catch((e) => {
-        alert(e.message);
-      });
+    if (token) {
+      getFiles(token)
+        .then((res) => {
+          dispatch(setFiles(res.data.files));
+        })
+        .catch((e) => {
+          alert(e.message);
+        });
+    }
     dispatch(setAuth(JSON.parse(localStorage.getItem("isAuth"))));
   }, []);
 

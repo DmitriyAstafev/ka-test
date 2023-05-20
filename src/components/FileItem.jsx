@@ -21,6 +21,7 @@ const FileItem = ({ fileName, url, mimeType }) => {
   const files = useSelector((state) => state.file.files);
   const [imgUrl, setImgUrl] = useState("");
 
+  // Отправляет запрос на удаление, после удаляет элемент из массива files, для обновления отображения
   const deleteHandler = () => {
     deleteFile(url, token)
       .then((res) => {
@@ -32,6 +33,7 @@ const FileItem = ({ fileName, url, mimeType }) => {
       });
   };
 
+  // Получает файл с бэка, создает объект Blob и ссылку для реализации скачивания на компьютер пользователя
   const loadFileHandler = () => {
     getOneFile(url, token)
       .then((response) => {
@@ -48,6 +50,8 @@ const FileItem = ({ fileName, url, mimeType }) => {
       });
   };
 
+  // Получает изображение с бэка, создает объект Blob, читает его как dataURL и сетит ссылку,
+  // которая используется для превью изображения
   const getImageUrl = () => {
     getOneFile(url, token)
       .then((response) => {

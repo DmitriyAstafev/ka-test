@@ -9,9 +9,10 @@ const Account = () => {
   const filePicker = useRef(null);
   const dispatch = useDispatch();
   const files = useSelector((state) => state.file.files);
-  const [selectedFiles, setSelectedFiles] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState(null); // список выбранных файлов для отображения на экране
   const token = localStorage.getItem("token");
 
+  // Реализует нажатие на скрытый инпут через ref
   const pickFileHandler = () => {
     filePicker.current.click();
   };
@@ -44,6 +45,9 @@ const Account = () => {
       );
       return;
     }
+    // Создаем объект формдата, помещаем в него данные из формы и загружаем на бэк,
+    // затем обнуляем список отправленных файлов и запрашиваем новый массив файлов с бэка
+    // для обновления списка загруженных файлов
     const formData = new FormData(e.target);
     uploadFiles(formData, token)
       .then((res) => {
@@ -68,6 +72,8 @@ const Account = () => {
         <Button fullWidth onClick={pickFileHandler}>
           Выбрать файлы для загрузки
         </Button>
+        {/* инпут скрыт для отображения(hidden), выбор файлов через кнопку, 
+        связь кнопки и инпута через ref={filePicker} */}
         <input
           onChange={chooseFileHandler}
           className="hidden"

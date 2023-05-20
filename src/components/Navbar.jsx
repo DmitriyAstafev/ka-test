@@ -18,6 +18,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
   console.log(token);
 
+  // Отправляем запрос на выход, после удаляем токен из localstorage
+  // сохраняем состояние авторизации
   const logoutHandler = () => {
     logout(token)
       .then((res) => {

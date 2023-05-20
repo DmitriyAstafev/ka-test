@@ -10,12 +10,15 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Используем билиотеку react-hook-form для работы с формой и валидации полей
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  // Отправляет данные для входа, получаем и сохраняем token в localStorage,
+  // сохраняем состояние авторизации, делаем редирект на страницу аккаунта
   const loginHandler = (loginData) => {
     const { email, password } = loginData;
     login(email, password)
