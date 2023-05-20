@@ -13,6 +13,7 @@ const FileList = () => {
             key={item.id}
             fileName={item.fileName}
             url={item.url}
+            mimeType={item.mimeType}
           />
         );
       })}
