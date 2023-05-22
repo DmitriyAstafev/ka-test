@@ -32,7 +32,7 @@ function App() {
         });
     }
     dispatch(setAuth(JSON.parse(localStorage.getItem("isAuth"))));
-  }, []);
+  });
 
   return (
     <Router>
