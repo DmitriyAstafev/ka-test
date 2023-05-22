@@ -9,7 +9,11 @@ import {
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { setAuth } from "../store/reducers/userSlice";
+import {
+  setAuth,
+  setModalActive,
+  setModalMessage,
+} from "../store/reducers/userSlice";
 import { logout } from "../actions/user";
 
 const Navbar = () => {
@@ -27,7 +31,8 @@ const Navbar = () => {
         dispatch(setAuth(false));
       })
       .catch((e) => {
-        alert(e.message);
+        dispatch(setModalActive(true));
+        dispatch(setModalMessage(e.message));
       });
   };
 

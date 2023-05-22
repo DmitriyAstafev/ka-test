@@ -3,9 +3,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { registration } from "../actions/user";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setModalActive, setModalMessage } from "../store/reducers/userSlice";
 
 const Registration = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Используем билиотеку react-hook-form для работы с формой и валидации полей
   const {
@@ -20,13 +23,17 @@ const Registration = () => {
     const { name, email, password } = regData;
     registration(name, email, password)
       .then((res) => {
-        alert(
-          "Поздравляем, вы успешно зарегистрированы. Войдите в аккаунт, чтобы начать работу."
+        dispatch(setModalActive(true));
+        dispatch(
+          setModalMessage(
+            "Поздравляем, вы успешно зарегистрированы. Войдите в аккаунт, чтобы начать работу."
+          )
         );
         navigate("/login");
       })
       .catch((e) => {
-        alert(e.message);
+        dispatch(setModalActive(true));
+        dispatch(setModalMessage(e.message));
       });
   };
 

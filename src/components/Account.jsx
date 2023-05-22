@@ -4,6 +4,7 @@ import { getFiles, uploadFiles } from "../actions/files";
 import FileList from "./FileList";
 import { setFiles } from "../store/reducers/fileSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setModalActive, setModalMessage } from "../store/reducers/userSlice";
 
 const Account = () => {
   const filePicker = useRef(null);
@@ -25,13 +26,17 @@ const Account = () => {
     e.preventDefault();
     //Проверяем, выбраны ли файлы
     if (!selectedFiles) {
-      alert("Выберите файлы для загрузки");
+      dispatch(setModalActive(true));
+      dispatch(setModalMessage("Выберите файлы для загрузки"));
       return;
     }
     //Проверяем, чтобы общее число файлов не превышало 20
     if (selectedFiles.length + files.length > 20) {
-      alert(
-        "Превышен лимит на общее количество загруженных файлов(не более 20)"
+      dispatch(setModalActive(true));
+      dispatch(
+        setModalMessage(
+          "Превышен лимит на общее количество загруженных файлов(не более 20)"
+        )
       );
       return;
     }
@@ -40,8 +45,11 @@ const Account = () => {
       return result + file.size;
     }, 0);
     if (filesSize > 1048576) {
-      alert(
-        "Превышен лимит на размер загружаемых файлов(не более 1 мегабайта)"
+      dispatch(setModalActive(true));
+      dispatch(
+        setModalMessage(
+          "Превышен лимит на размер загружаемых файлов(не более 1 мегабайта)"
+        )
       );
       return;
     }
@@ -55,14 +63,17 @@ const Account = () => {
         getFiles(token)
           .then((res) => {
             dispatch(setFiles(res.data.files));
-            alert("Файлы успешно загружены");
+            dispatch(setModalActive(true));
+            dispatch(setModalMessage("Файлы успешно загружены"));
           })
           .catch((e) => {
-            alert(e.message);
+            dispatch(setModalActive(true));
+            dispatch(setModalMessage(e.message));
           });
       })
       .catch((e) => {
-        alert(e.message);
+        dispatch(setModalActive(true));
+        dispatch(setModalMessage(e.message));
       });
   };
 

@@ -5,9 +5,14 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Account from "./components/Account";
-import { setAuth } from "./store/reducers/userSlice";
+import {
+  setAuth,
+  setModalActive,
+  setModalMessage,
+} from "./store/reducers/userSlice";
 import { getFiles } from "./actions/files";
 import { setFiles } from "./store/reducers/fileSlice";
+import ModalWindow from "./components/ModalWindow";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +27,8 @@ function App() {
           dispatch(setFiles(res.data.files));
         })
         .catch((e) => {
-          alert(e.message);
+          dispatch(setModalActive(true));
+          dispatch(setModalMessage(e.message));
         });
     }
     dispatch(setAuth(JSON.parse(localStorage.getItem("isAuth"))));
@@ -31,6 +37,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <ModalWindow />
       {!isAuth ? (
         <Routes>
           <Route exact path="/registration" element={<Registration />} />

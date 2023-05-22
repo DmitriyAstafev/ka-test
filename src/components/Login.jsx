@@ -3,7 +3,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { login } from "../actions/user";
 import { useDispatch } from "react-redux";
-import { setAuth } from "../store/reducers/userSlice";
+import {
+  setAuth,
+  setModalActive,
+  setModalMessage,
+} from "../store/reducers/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -28,7 +32,8 @@ const Login = () => {
         navigate("/");
       })
       .catch((e) => {
-        alert(e.message);
+        dispatch(setModalActive(true));
+        dispatch(setModalMessage(e.message));
       });
   };
 

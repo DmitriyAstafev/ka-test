@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import { deleteFile, getOneFile } from "../actions/files";
 import { useDispatch, useSelector } from "react-redux";
 import { setFiles } from "../store/reducers/fileSlice";
+import { setModalActive, setModalMessage } from "../store/reducers/userSlice";
 
 const FileItem = ({ fileName, url, mimeType }) => {
   const token = localStorage.getItem("token");
@@ -29,7 +30,8 @@ const FileItem = ({ fileName, url, mimeType }) => {
         dispatch(setFiles(newFileList));
       })
       .catch((e) => {
-        alert(e.message);
+        dispatch(setModalActive(true));
+        dispatch(setModalMessage(e.message));
       });
   };
 
@@ -46,7 +48,8 @@ const FileItem = ({ fileName, url, mimeType }) => {
         link.remove();
       })
       .catch((e) => {
-        alert(e.message);
+        dispatch(setModalActive(true));
+        dispatch(setModalMessage(e.message));
       });
   };
 
@@ -63,7 +66,8 @@ const FileItem = ({ fileName, url, mimeType }) => {
         reader.onloadend = () => setImgUrl(reader.result);
       })
       .catch((e) => {
-        alert(e.message);
+        dispatch(setModalActive(true));
+        dispatch(setModalMessage(e.message));
       });
   };
 

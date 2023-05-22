@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAuth: false,
+  isModalActive: false,
+  modalMessage: "",
 };
 
 export const userSlice = createSlice({
@@ -12,9 +14,15 @@ export const userSlice = createSlice({
       state.isAuth = action.payload;
       localStorage.setItem("isAuth", JSON.stringify(action.payload));
     },
+    setModalActive: (state, action) => {
+      state.isModalActive = action.payload;
+    },
+    setModalMessage: (state, action) => {
+      state.modalMessage = action.payload;
+    },
   },
 });
 
-export const { setAuth } = userSlice.actions;
+export const { setAuth, setModalActive, setModalMessage } = userSlice.actions;
 
 export default userSlice.reducer;
